@@ -6,11 +6,14 @@ from code.database.base import Base
 class Prediction(Base):
     __tablename__ = "predictions"
 
+    # Foreign Key:
     user_id = ForeignKey("users.id", ondelete="CASCADE")
 
+    # Properties:
     type = String(50)  # monthly_forecast | anomaly
     value = Numeric(10, 2)
     confidence = Numeric(5, 2)
     valid_for = DateTime(timezone=True)
-
+    
+    # Relationship:
     user = relationship("User", back_populates="predictions")
