@@ -1,14 +1,7 @@
-from kivy.app import App
-from kivy.uix.widget import Widget
+from fastapi import FastAPI
+from routers import expenses, stats
 
-# Create Game Widget
-class PongGame(Widget):
-    pass
+app = FastAPI(title="Expense Tracker API")
 
-# create App that calls the Game Widget: 
-class PongApp(App):
-    def build(self):
-        return PongGame()
-    
-if __name__ == '__main__':
-    PongApp().run()
+app.include_router(expenses.router)
+app.include_router(stats.router)
