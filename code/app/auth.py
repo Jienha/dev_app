@@ -35,21 +35,23 @@ def verify_password(password, hashed):
     """
     return pwd_context.verify(password, hashed)
 
-def create_access_token(data: dict):
+def create_access_token(subject: str) -> str:
     """
     Create specific authentication token from dictionary data
 
     Params:
-        - data (dict)
+        - subject (str)
 
     Return:
         - Token (str)
     """
-    to_encode = data.copy()
+    # expiration date:
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
+    payload = {
+        "sub": subject,
+        "exp": expire
+    }
+    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 if __name__ == '__main__':
 
